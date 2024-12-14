@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 const config = require("./config");
 
 function connectDatabase() {
+  const dbUrl = config.dbUrl;
   try {
-    mongoose.connect(config.dbUrl);
+    mongoose.connect(dbUrl);
     console.log("Sucessfully connected to the Database.")
   } catch(error) {
     console.log("Error connecting to the database.")
