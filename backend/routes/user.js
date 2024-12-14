@@ -73,5 +73,33 @@ router.post("/signin", async (req, res) => {
 
 })
 
+router.post("/people", async (req, res) => {
+  const filter = req.query.filer || "";
+
+  try {
+    const users = await User.find({
+      $or: [{
+        firstName: {
+          "$regex": filter
+        }
+      }, {
+        lastName: {
+          "$regex": filter
+        }
+      }]
+    })
+    res.status(200).json({
+      user: users.map(user => ({
+        userId: user._id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }))
+    })
+    return;
+  } catch(error) {
+    return res.status(500).json({message: "Unsuccessful database fetch."});
+  }
+})
 
 module.exports = router;
