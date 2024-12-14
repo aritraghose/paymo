@@ -3,6 +3,7 @@ const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 const {User, Account} = require("../db");
+const {authMiddleware} = require("../middleware");
 
 const router = express.Router();
 
@@ -73,7 +74,7 @@ router.post("/signin", async (req, res) => {
 
 })
 
-router.post("/people", async (req, res) => {
+router.post("/people", authMiddleware, async (req, res) => {
   const filter = req.query.filer || "";
 
   try {
